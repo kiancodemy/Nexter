@@ -1,0 +1,56 @@
+.sidebar {
+  background-color: $color-primary;
+  grid-column: sidebar-start / sidebar-end;
+  grid-row: 1/-1;
+
+  display:grid;
+  justify-content: center;
+
+  @media only screen and (max-width:$bp-large){
+    grid-column: 1/-1;
+    grid-row: span 1;
+    justify-content: end;
+    //padding-right: 2rem;
+  }
+}
+
+.nav-btn {
+  border: none;
+  border-radius: 0;
+  margin-top: 4rem;
+  background-color: #fff;
+  height: 0.2rem;
+  width: 5rem;
+
+  &::before,
+  &::after{
+    content: "";
+    display: block;
+    background-color: #fff;
+    height: 0.2rem;
+    width: 5rem;
+  }
+
+  &::before {
+    transform: translateY(-1.5rem);
+  }
+
+  &::after {
+    transform: translateY(1.3rem);
+  }
+
+  @media only screen and (max-width:$bp-large){
+    //display: block;
+    margin-top: 2.5rem;
+    margin-right: 2rem;
+
+    &::before {
+      transform: translateY(-1.3rem);
+    }
+
+    &::after {
+      transform: translateY(1.0rem);
+    }
+
+  }
+}

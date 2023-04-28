@@ -1,0 +1,766 @@
+--------------------------------------------------------------
+2. Natours Project — Setup and First Steps (Part 1) ✔️
+--------------------------------------------------------------
+3 -
+    clip-path: polygan(x y, x y , ...);
+    
+
+4 -
+    how to center everything:
+
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%,-50%)      
+
+
+5 - Animation keyframe
+
+
+
+    @keyframe moveToRight{
+        0%{
+        }
+        80%{
+        }
+        100{
+        }
+
+    }
+
+    .btn{
+        animation-name: moveToRight;
+        animation-duration: 1s;
+        animation-timing-function: ease-out;
+        or:
+        animation: moveToRight 1s ease-out (10s);
+    }
+  /*to avoid vibrate or flutter (at the end of animation motion it have a bit jump*/
+
+    animation-fill-mode:backwards;
+6
+
+
+--------------------------------------------------------------
+3. How CSS Works A Look Behind the Scenes ✔️
+--------------------------------------------------------------
+
+
+4:
+    priority in css
+
+    (inline, id, class, tagName)
+
+
+5:
+
+6: rem em vh wh
+
+7:  Inheritence in css
+
+8:
+    html:
+        62.5 % ==> 10px = 1rem
+
+    *,
+    *::after,
+    *::before{
+    box-sizing: inherit;
+    }
+    body{
+        box-sizing: border-box;
+    }
+
+10:
+    BEM:
+        block element modifier
+
+        .block{}
+        .block__element{}
+        .bolock__element--modifier{}
+
+    the 7-1 pattern:
+        7 different folder for partial Sass files, and 1 main Sass file to import all other files into a compile CSS stylesheet
+
+
+        The 7 folders:
+            . base/
+            . components/
+            . layout/
+            . pages/
+            . themes/
+            . abstracts/
+            . vendors/
+
+
+--------------------------------------------------------------
+4. Introduction to Sass and NPM ✔️
+--------------------------------------------------------------
+ you can use // for comment in sass
+ sass and scss are same but scss use {} and sass use indent;
+
+3:
+
+    define variables:
+        $color-primary:#333;
+        $color-secondary:..;
+        $color-tertiary:...;
+        $color-text-dark:...;
+        $width-button: 150px
+
+    & operator
+
+    .btn-main{
+        &:link{}
+        &:hover{}
+
+    }
+
+    darken -- lighten
+    background-color:darken($color-secondary, 15%)
+    background-color:($color-secondary, 15%)
+
+
+4:
+    mixin -- include -- reusable
+    piece of code  -- pass argument to mixin
+    function return *
+    extend placeholder %
+
+    mixin:
+        @mixin style-link-text($col){
+            text-decoration:none;
+            text-transform: uppercase;
+            color:$col;
+        }
+
+    use:
+
+        a{
+
+            @include style-link-text($color-primary)
+
+        }
+
+    function:
+
+        @function divided($a, $b){
+            @return $a / $b
+        }
+
+
+        use:
+
+        nav{
+            margin:divided(60,2) * 1px; //30px
+        }
+
+
+    %btn-placeholder{
+        1...
+        2...
+        3...
+        ...
+    }
+
+    .btn-main{
+        &:link{
+        @extend %btn-placeholder
+
+        }
+    }
+
+     .btn-hot{
+        &:link{
+        @extend %btn-placeholder
+
+        }
+    }
+
+
+    it is different with mixin in css export
+
+    .btn-main:link,
+    .btn-hot:link{
+        1...
+        2...
+        3...
+        4...
+
+    }
+
+    but in mixin the code copied in each section separately;
+
+5: Command line
+6: npm:
+
+    npm init
+    npm install node-sass --save-dev
+
+
+7:
+    config sass
+
+    package.json:
+
+        "scripts":{
+            "compile:sass":"node-sass sass/main.scss css/style.css -w"
+
+        }
+
+    add -w flag to watch changes as soon as possible
+
+
+    npm run compile:sass
+
+
+
+--------------------------------------------------------------
+5. Natours Project — Using Advanced CSS and Sass (Part 2) ✔️
+--------------------------------------------------------------
+
+
+5:
+
+    clear fix:
+
+    write it in _mixins.scss:
+
+    @mixin clearfix{
+        content:'';
+        display:tabel;
+        clear:both;
+    }
+
+    not -- last-child
+
+    &:not(:last-child){
+        ...
+    }
+
+
+    calc -- #
+
+    use `#{$variables}` if you want use variables in `calc`
+
+    width: calc(100% - #{${variables});
+
+
+
+    ^ -- *
+
+    select attribute with ^ or *
+
+    use ^ -->> for started with specific word
+    use * -->> for content a specific word
+
+    [class^='col-]
+    or
+    [alt*='color']
+
+
+6: use linear gradient for text (web kit background clip)
+
+    // Step1
+    background-image: linear(to right, red, blue)
+
+    // step2 --> background clip except somewhere we have text
+    -webkit-background-clip:text;
+
+    //step3 transparent color of text
+    //so the you can see the color of background
+    color:transparent
+
+
+
+    skewX skewY
+
+    transform: skewX(2deg)
+
+
+7:
+
+8:
+
+    outline: 2px solid #000
+
+    outline-offset: 10px;
+
+
+
+    how can change the item not hover
+    &:hover &__photo:not(:hover)
+9:
+
+10:
+
+    backface-visibility:hidden;
+
+    card front back
+
+    perspective: 100rem;
+    -moz-perspective: 100rem;
+11
+    background-blend-mode:screen;
+
+    box-decoration-break: clone;
+        --> every line is considered as a separate box  when line break and rest of text go to next line;
+
+
+12:
+
+
+
+13:14:15
+//TODO shape
+
+video tag
+
+    <video>
+
+      <div class="bg-video">
+            <video  class="bg-video__content" autoplay loop muted>
+                <source src="./img/video.mp4" type="video/mp4">
+                <source src="./img/video.webm" type="video/webm">
+                Your browser is not supported.
+            </video>
+        </div>
+
+    video loopt autoplay muted type="video/mp4"
+
+
+
+    object-fit:cover // --> like backgroung-size:cover for images
+
+
+16
+
+ linear-grdiant(105deg, white 0%, white 50%, red 50%, red 100%)
+
+ :placeholder-shown  --> show style when placeholder shown
+
+ ~ --> sibling selector
+ + --> next sibling selector (adjacent selector)
+
+ input sudo:
+
+    :focus
+    :focus:invalid
+     &::-webkit-input-placeholder
+
+
+ radio type:
+
+    :checked
+
+
+
+
+
+
+23:24:
+
+
+parent"
+    display:table;
+child:
+    display:table-cell;
+    vertical-align:center;
+
+
+    text pargraph column hyphens
+
+    column-count:2;
+    column-gap:4rem;
+    column-rule:1px solid $
+
+    hyphens:auto //manual
+
+
+--------------------------------------------------------------
+6. Natours Project — Advanced Responsive Design (Part 3) ✔️
+--------------------------------------------------------------
+
+3: mixin content include if
+
+    @mixin respond-phone{
+        @media (max-width: 600px){@content} // **
+    }
+
+    @include respond-phone{
+        font-size:50%; // this copied in @content **
+    }
+
+
+
+    @mixin respond($breakpoint){
+    @if($breakpoint == phone){
+        @media (max-width: 600px){@content}
+        }
+    @if($breakpoint == tab-port{
+        @media (max-width: 600px){@content}
+        }
+    }
+
+5:
+6:
+7:
+ Responsive Image:
+    1 - Resolution Switching --> large screen, small screen
+    2 - Density Switching  2x --> high resolution , 1x --> low resolution
+    3 - Art Direction --> large screen, small screen
+
+8:
+    Density Switching
+
+    <img src=   ===>    <img srcset="img/bg1.jpg 2x, img/bg2 1x"  src="img/bg1.jpg"/>
+
+    use picture source media
+
+    <picture>
+        <source srcset="img/bg1-small-2x.png 2x, img/bg2-small-1x.png 1x" media="(max-width:37.5rem)" >
+        <img srcset="img/bg1.jpg 2x, img/bg2 1x"  src="img/bg1.jpg"/>
+
+
+
+    </picture>
+9:
+    Resolution Switching:
+
+
+                                   300 width is of img,     1000 is width of img
+        <img srcset ="img/nat1.png 300w, img/nat1-large.png 1000w"
+             sizes="(max-width:900px) 20vw //for small img, (max-width:600px) 30vw //for large img, 300 //for defautl img"
+
+10: resposive image -- and - or  -- min-resolution
+    media query always in `em`
+
+    for and use --> and
+    for or use --> , (comma)
+
+
+    @media(min-resolution:192dpi) and (min-width:600px), // remember you can use em  600px: 37.5em, 2000px: 125 em  (600/16, 2000/16)
+        (min-width:2000px){
+
+        ....
+        }
+
+11: support caniuse
+
+-webkit-min-device-pixel-ratio  // safari does not support min-resolution
+
+    @support ( everything ) or (other){
+        everything;
+        other;
+    }
+
+12: compile concat prefix - autoprefixer -- postcss-cli -- compress -- npm run all -- devserver -- parallel -b (browser) last 10 version
+
+
+all the css code in one file. It is better because one http request needed
+
+postcss pars prefixer
+
+    // todo
+
+
+    1 - compilation
+    2 - concatination
+    3 - prefixing
+    4 - compressing
+
+
+    1 -
+        "compile:sass":"sass main.scss style.comp.css"
+
+    2 - concat with other css like icon-font
+
+        npm install concat --save-dev
+
+        "concat:css":"concat -o sytle.concat.css icon-font.css style.comp.css"
+
+    3 - autoprifixer - and set how many version of browser supported -- -b mean browser
+
+        and for parse need to install postcss-cli  (cli => command line interface)
+
+        npm install autoprefixer --save-dev
+        npm install postcss-cli postcss --save-dev
+
+        "prefix:css":"postcss --use autoprefixer -b 'last 10 version' style.concat.css -o style.prefix.css "
+
+    4 - compressing: sass do this:
+
+        "compress:css": "sass style.prefix.css style.css --style compressed" (or style.min.css)  // --output-style --> --style
+
+
+
+
+    and if you want to run alltogether:
+
+    npm install npm-run-all --save-dev
+
+    "build:css":"npm-run-all compile:sass concat:css prefix:css compress:css"
+
+
+
+     "scripts": {
+    "watch:sass": "sass sass/main.scss css/style.css -w",
+    "compile:sass": "sass sass/main.scss css/style.comp.css",
+
+    "concat:css": "concat -o css/style.concat.css css/icon-fonts.css css/style.comp.css",
+    "prefix:css": "postcss --use autoprefixer -b 'last 10 versions' css/style.concat.css -o css/style.prefix.css",
+    "compress:css": "sass css/style.prefix.css css/style.css --style compressed",
+    "build:css": "npm-run-all compile:sass concat:css prefix:css compress:css "
+  },
+
+
+13: selection --  meta tag viewport -- hover:none
+
+
+    how to change background of selected text:
+
+    ::selection{
+        background-color:
+        color:
+        }
+
+    use `only screen` in media query if some want to print out the page the media query don't apply;
+
+@mixin respond($breakpoint) {
+  @if ($breakpoint == phone) {
+    @media only screen and (max-width: 600px) {
+      @content;
+    }
+  }
+  }
+
+  responsive design does not work without meta tag viewport
+
+  for example: if device 400px then website also 400px (width)
+  if you don't use that website zoom out in largest version;
+
+hover none: (for touch device): use hover:none
+    @media only screen and (max-width: 900px),
+  only screen and (hover:none){
+
+
+  oposite hover:none ==> hover:hover
+
+
+-------------------------------------------------
+7. Trillo Project — Master Flexbox![UdemyIran]
+-------------------------------------------------
+1:
+2: flexbox cheets
+3:
+    display:flex;
+    flex-direction:...;
+    justify-content;
+    align-items;
+
+
+    justify-content:
+    space-between: no margin for around;
+    space-around: margin between and around - margin of around half of margin of between;
+    space-evenly: margin between and around is equal;
+
+    align-items:
+    base-line --> consider text for align;
+    center  -->   consider highest container;
+
+4:
+
+    align-self -- order -- flex-grow -- flex-basis -- flex-shrink
+
+    align-self:
+        scretch
+        flex-start,end
+        center
+
+    order: ; <integer>
+
+    flex-grow or flex:firstposition;
+
+    flex-grow: 1,2,3...;  <integer>
+
+    flex-grow: 0; // do not allow to object grow as much as it scan
+
+    flex-basis: 20%;
+    flex-basis: 40px;
+
+    flex-shrink: 1; //default is 1; // able to shrink
+    flex-shrink:0 ; // do not allow to shrink
+
+    short hand:
+
+    flex: 0 0 300px; // shrink grow basis;
+
+
+5:
+    flex-wrap:wrap;
+    align-content: space-between,center,,,,;
+
+    when items wrap in new line you can use align content;(align cross axis)
+
+6:
+7:  css variables or css custom property -- root psudo class --   background-repeat:no-repeat;
+
+
+    css varibales or css custom property (better than varibles in sass)
+
+    variables need preprocessors but custom property dont;
+    you can manipulated it in javascript
+    added them to dev tools
+    and also cascad inherited
+    css variables define in scope (decelaration block)
+
+    :root
+    we need a block to define all thing and inherited to thier childs.
+    root like html selector with higher specificity
+
+
+    :root{
+        --color-primary: #eb2f64
+
+    }
+
+8:
+
+9:  iconmoon.io -- svg -- sprite --xlink
+
+    So what is a sprite file?
+
+    Well, it's simply an SVG file which contains all of svgs
+         in this case if use sprite file, we have only one http requrest for svgs
+
+
+    xlink:href ==> work only on webserver
+
+
+10:
+        change style in input placeholder:
+
+        ::-webkit-input-placeholder
+
+11:
+     & > * //select all direct child
+12:
+13:
+    currentColor
+    active
+    z-index works on specified position
+    transform-origin
+
+16:17:
+
+    flex-wrap
+    mask-image
+    mask-size
+
+    last-of-type (last-child)
+
+    use svg as image and change its color
+
+
+    use -webkit- for chrome:
+
+        mask-image:url('.....sv')
+        mask-size:cover
+
+
+      &__item::before{
+    content:'';
+    display: inline-block;
+    margin-right: 0.7rem;
+    height:1rem;
+    width:1rem;
+    background-color: var(--primary-color);
+    -webkit-mask-image: url(../img/chevron-thin-right.svg);
+    -webkit-mask-size:cover;
+    mask-image: url(../img/chevron-thin-right.svg);
+    mask-size:cover;
+  }
+
+
+18:
+    ******
+    figure is also use for review and description
+
+
+19:
+20:21:
+    Writing media query
+22  :
+
+
+-------------------------------------------------
+8. A Quick Introduction to CSS Grid Layouts
+-------------------------------------------------
+1:
+2:
+3:
+4:grid grid-template-column, row grid-column-gap grid-gap
+5: fr % repeat 
+6: grid-row-start grid-row-end grid-row:2/3; grid-area: 2/3/1/2(rowstart/columnstart/rowend/rcolumnend)
+7:span
+    grid-column: 2/span 3
+8: 
+9:naming grid: 
+11:
+    grid-template-areas
+12:
+    explicit and implicit in grid
+
+    grid-auto-rows
+    grid-auto-flows
+    grid-auto-column
+13:
+    align-items
+    justify-content
+
+    align-self
+    justify-self
+14:
+    justify-content
+    align-content
+    dens
+    grid-auto-flow:row dense;
+15:
+    min-content
+    max-content
+    minmax() 
+16:
+    auto-fit
+    auto-fill
+
+         grid-template-rows:repeat(2, minmax(150px, min-content));
+         grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+         grid-auto-rows:150px;
+
+    auto-fill --> fill all space
+    auto-fit  --> fill space as you need
+
+---------------------------------------------------------
+9. Nexter Project — Master CSS Grid Layouts![UdemyIran]
+---------------------------------------------------------
+1:
+2:
+3:
+4:
+5:
+6:
+7:
+8:
+9: 
+10: object fit with imagess for grid items,
+    object-fit:cover
+
+11:
+12:
+13:
+14:
+15:
+    use before after in grid 
+16:
+17:
+18:
